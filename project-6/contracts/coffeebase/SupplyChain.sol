@@ -1,9 +1,17 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.8.3;
+
+import "../coffeecore/Ownable.sol";
+import "../coffeeaccesscontrol/FarmerRole.sol";
+import "../coffeeaccesscontrol/DistributorRole.sol";
+import "../coffeeaccesscontrol/RetailerRole.sol";
+import "../coffeeaccesscontrol/ConsumerRole.sol";
+
 // Define a contract 'Supplychain'
-contract SupplyChain {
+contract SupplyChain is Ownable, FarmerRole, DistributorRole, 
+    RetailerRole, ConsumerRole {
 
   // Define 'owner'
-  address owner;
+  // address owner; Defined in Ownable.sol
 
   // Define a variable called 'upc' for Universal Product Code (UPC)
   uint  upc;
@@ -63,10 +71,11 @@ contract SupplyChain {
   event Purchased(uint upc);
 
   // Define a modifer that checks to see if msg.sender == owner of the contract
-  modifier onlyOwner() {
+  // Defined in Ownable.sol
+  /*modifier onlyOwner() {
     require(msg.sender == owner);
     _;
-  }
+  }*/
 
   // Define a modifer that verifies the Caller
   modifier verifyCaller (address _address) {
@@ -85,7 +94,7 @@ contract SupplyChain {
     _;
     uint _price = items[_upc].productPrice;
     uint amountToReturn = msg.value - _price;
-    items[_upc].consumerID.transfer(amountToReturn);
+    payable(items[_upc].consumerID).transfer(amountToReturn);
   }
 
   // Define a modifier that checks if an item.state of a upc is Harvested
@@ -139,21 +148,21 @@ contract SupplyChain {
   // In the constructor set 'owner' to the address that instantiated the contract
   // and set 'sku' to 1
   // and set 'upc' to 1
-  constructor() public payable {
-    owner = msg.sender;
+  constructor() payable {
+    // owner = address(msg.sender); Defined in Ownable.sol
     sku = 1;
     upc = 1;
   }
 
   // Define a function 'kill' if required
   function kill() public {
-    if (msg.sender == owner) {
-      selfdestruct(owner);
+    if (msg.sender == owner()) {
+      selfdestruct(payable(owner()));
     }
   }
 
   // Define a function 'harvestItem' that allows a farmer to mark an item 'Harvested'
-  function harvestItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public 
+  function harvestItem(uint _upc, address _originFarmerID, string memory _originFarmName, string memory _originFarmInformation, string memory _originFarmLatitude, string  memory _originFarmLongitude, string memory _productNotes) public 
   {
     // Add the new item as part of Harvest
     Item memory item;
@@ -162,6 +171,7 @@ contract SupplyChain {
     item.sku = sku;
     item.upc = _upc;
     item.originFarmerID = _originFarmerID;
+    item.originFarmName = _originFarmName;
     item.originFarmInformation = _originFarmInformation;
     item.originFarmLatitude = _originFarmLatitude;
     item.originFarmLongitude = _originFarmLongitude;
@@ -219,7 +229,7 @@ contract SupplyChain {
   // and any excess ether sent is refunded back to the buyer
   function buyItem(uint _upc) public payable 
     // Call modifier to check if upc has passed previous supply chain stage
-    forSale(_upc);
+    forSale(_upc)
     // Call modifer to check if buyer has paid enough
     paidEnough(items[_upc].productPrice)
     // Call modifer to send any excess ether back to buyer
@@ -231,7 +241,7 @@ contract SupplyChain {
       items[_upc].distributorID = msg.sender;
       items[_upc].itemState = State.Sold;
     // Transfer money to farmer
-      items[_upc].originFarmerID.transfer(items[_upc].productPrice);
+      payable(items[_upc].originFarmerID).transfer(items[_upc].productPrice);
     // emit the appropriate event
       emit Sold(_upc);
   }
@@ -285,10 +295,10 @@ contract SupplyChain {
   uint    itemUPC,
   address ownerID,
   address originFarmerID,
-  string  originFarmName,
-  string  originFarmInformation,
-  string  originFarmLatitude,
-  string  originFarmLongitude
+  string memory originFarmName,
+  string memory originFarmInformation,
+  string memory originFarmLatitude,
+  string memory originFarmLongitude
   ) 
   {
   // Assign values to the 8 parameters
@@ -321,7 +331,7 @@ contract SupplyChain {
   uint    itemSKU,
   uint    itemUPC,
   uint    productID,
-  string  productNotes,
+  string  memory productNotes,
   uint    productPrice,
   uint    itemState,
   address distributorID,
@@ -335,7 +345,7 @@ contract SupplyChain {
     productID = items[_upc].productID;
     productNotes = items[_upc].productNotes;
     productPrice = items[_upc].productPrice;
-    itemState = items[_upc].itemState;
+    itemState = uint256(items[_upc].itemState);
     distributorID = items[_upc].distributorID;
     retailerID = items[_upc].retailerID;
     consumerID = items[_upc].consumerID;
