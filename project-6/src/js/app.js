@@ -175,7 +175,8 @@ App = {
                 App.originFarmInformation, 
                 App.originFarmLatitude, 
                 App.originFarmLongitude, 
-                App.productNotes
+                App.productNotes,
+                { from: App.metamaskAccountID }
             );
         }).then(function(result) {
             $("#ftc-item").text(result);
@@ -234,8 +235,8 @@ App = {
         var processId = parseInt($(event.target).data('id'));
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
-            const walletValue = web3.toWei(3, "ether");
-            return instance.buyItem(App.upc, {from: App.metamaskAccountID, value: walletValue});
+            const walletValue = web3.toWei($("#productPrice").val(), "ether");
+            return instance.buyItem(App.upc, {from: App.metamaskAccountID, value: walletValue, gasLimit: 5000000});
         }).then(function(result) {
             $("#ftc-item").text(result);
             console.log('buyItem',result);
@@ -328,8 +329,11 @@ App = {
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
         var events = instance.allEvents(function(err, log){
-          if (!err)
+          if (!err) {
             $("#ftc-events").append('<li>' + log.event + ' - ' + log.transactionHash + '</li>');
+          } else {
+            console.log('err', err);
+          }
         });
         }).catch(function(err) {
           console.log(err.message);

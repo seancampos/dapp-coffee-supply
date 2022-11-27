@@ -40,6 +40,8 @@ Test code is in `test/TestSupplychain.js`
 
 ## Part 4: Deploy smart contracts on public test network
 
+Contract Address: [0x459E517757CbC1a6C7FF4210DCceF68Dd568E6D9](https://goerli.etherscan.io/address/0x459E517757CbC1a6C7FF4210DCceF68Dd568E6D9)
+
 
 The DApp User Interface when running should look like...
 
