@@ -1,6 +1,45 @@
-# Supply chain & data auditing
+# Coffee Supply Chain Project
 
-This repository containts an Ethereum DApp that demonstrates a Supply Chain flow between a Seller and Buyer. The user story is similar to any commonly used supply chain process. A Seller can add items to the inventory system stored in the blockchain. A Buyer can purchase such items from the inventory system. Additionally a Seller can mark an item as Shipped, and similarly a Buyer can mark an item as Received.
+## Part 1: Plan the project with write-ups
+
+### Requirement 1 	Project write-up - UML
+
+#### Activity Diagram
+
+![Activity Diagram](images/Supply_Chain_Activity_Diagram.drawio.png)
+
+#### Sequence Diagram
+
+![Sequence Diagram](images/Sequence_Diagram.png)
+
+#### State Diagram
+
+![State Diagram](images/Coffee_Supply_State_Diagram.drawio.png)
+
+#### Class Diagram
+
+![Class Diagram](images/Coffee_Class_Diagram.png)
+
+[![](https://mermaid.ink/img/pako:eNp9kk1vwjAMhv9KlFPR4DJpO1S7MNCkSdsFblMvJjFrtDSpEgeEGP997geCtWO5xHrzxM4b-yiV1yhzqSzEuDTwGaAqnOClTUBFxjvxtuqUuVIY48I7Ct6Kp-_ZTDxDxO6wiTpt4QP-cSEXd-IFQoVh5e0tYGkiBbNJ5G9RosFWSGAs_stwHNOvaq3H9qHHThCMGcJKcNGk6CKuCQgFulRdtBLCDiO9Mp9NLnIdfFN5JIP6GmoRrTVDrTT1kNukw1DiVqDZ4ahKCqpkP9f66dps04srsw737ReBornWgd8toNsvjOr_bXySap4Ojdk4yyQf037vYGMxO-f7i6khRcwgEG45mdHMJOPo_uGx9yKnkq9WYDTPaGukkFRihYXMOdR8L1kqZOEaFHhu1genZM79xKlMteY-9lMt8y3YyCpqw-P13s99s01lDe7D-zNz-gGTLfrH?type=png)](https://mermaid.live/edit#pako:eNp9kk1vwjAMhv9KlFPR4DJpO1S7MNCkSdsFblMvJjFrtDSpEgeEGP997geCtWO5xHrzxM4b-yiV1yhzqSzEuDTwGaAqnOClTUBFxjvxtuqUuVIY48I7Ct6Kp-_ZTDxDxO6wiTpt4QP-cSEXd-IFQoVh5e0tYGkiBbNJ5G9RosFWSGAs_stwHNOvaq3H9qHHThCMGcJKcNGk6CKuCQgFulRdtBLCDiO9Mp9NLnIdfFN5JIP6GmoRrTVDrTT1kNukw1DiVqDZ4ahKCqpkP9f66dps04srsw737ReBornWgd8toNsvjOr_bXySap4Ojdk4yyQf037vYGMxO-f7i6khRcwgEG45mdHMJOPo_uGx9yKnkq9WYDTPaGukkFRihYXMOdR8L1kqZOEaFHhu1genZM79xKlMteY-9lMt8y3YyCpqw-P13s99s01lDe7D-zNz-gGTLfrH)
+
+### Requirement 2 	Project write-up - Libraries
+- Truffle v5.6.1 (core: 5.6.1)
+- Ganache v7.4.4
+- Solidity - 0.8.3 (solc-js)
+- Node v16.13.1
+- Web3.js v1.7.4
+
+
+### Requirement 3 	Project write-up - IPFS
+
+## Part 2: Write smart contracts 
+Contracts are located in `contracts` directory
+
+## Part 3: Test smart contract code coverage
+Test code is in `test/TestSupplychain.js`
+
+## Part 4: Deploy smart contracts on public test network
+
 
 The DApp User Interface when running should look like...
 
